@@ -103,7 +103,6 @@ export function DrillingRigAssembly({
       <EnergyFlow
         buildProgress={buildProgress}
         flowSpeed={energyFlowSpeed}
-        rigPosition={rigPosition}
       />
     </group>
   );
