@@ -1,0 +1,364 @@
+:root {
+  /* BAPETCO Color Palette */
+  --petroleum-navy: #0A0F1A;
+  --petroleum-navy-dark: #060A12;
+  --dark-slate: #121B2B;
+  --blueprint-cyan: #00D4FF;
+  --blueprint-cyan-dim: rgba(0, 212, 255, 0.5);
+  --energy-gold: #FFB800;
+  --energy-gold-dim: rgba(255, 184, 0, 0.3);
+  --ice-white: #E0F7FF;
+  --grid-cyan: rgba(0, 212, 255, 0.15);
+  
+  /* Typography */
+  --font-display: 'Orbitron', sans-serif;
+  --font-body: 'Rajdhani', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--petroleum-navy);
+  color: var(--ice-white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--petroleum-navy-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--blueprint-cyan-dim);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--blueprint-cyan);
+}
+
+/* Selection styling */
+::selection {
+  background: var(--blueprint-cyan);
+  color: var(--petroleum-navy);
+}
+
+/* Canvas container */
+.canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+}
+
+/* Scroll container */
+.scroll-container {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero-section {
+  height: 100vh;
+  pointer-events: auto;
+}
+
+/* Future content sections go below the hero */
+.content-section {
+  min-height: 100vh;
+  background: var(--petroleum-navy);
+  pointer-events: auto;
+}
+
+/* UI Overlay - positioned on LEFT side since rig is on far RIGHT */
+.hero-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 5vw;
+  padding-left: 8vw;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.hero-content {
+  max-width: 550px;
+  text-align: left;
+}
+
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--ice-white);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(30px);
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+}
+
+.hero-headline .highlight {
+  color: #8a9099;
+  text-shadow: 0 0 20px rgba(138, 144, 153, 0.4);
+}
+
+.hero-subheadline {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.8vw, 1.3rem);
+  font-weight: 400;
+  color: #7a8090;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.hero-subheadline span {
+  opacity: 0.4;
+  margin: 0 0.5em;
+}
+
+/* Scroll Indicator - appears after animation */
+.scroll-indicator {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.scroll-indicator:not(.hidden) {
+  opacity: 1;
+}
+
+.scroll-indicator.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scroll-text {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #6a7080;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(
+    to bottom,
+    #6a7080,
+    transparent
+  );
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scaleY(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+/* Progress Bar */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--petroleum-navy-dark);
+  z-index: 100;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #4a5060,
+    #7a8090
+  );
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--petroleum-navy);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loading-screen.loaded {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loading-logo {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--blueprint-cyan);
+  letter-spacing: 0.3em;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 30px var(--blueprint-cyan);
+}
+
+.loading-bar {
+  width: 200px;
+  height: 2px;
+  background: var(--dark-slate);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.loading-progress {
+  height: 100%;
+  background: var(--blueprint-cyan);
+  animation: loadingAnim 2s ease-in-out infinite;
+}
+
+@keyframes loadingAnim {
+  0% {
+    width: 0%;
+    margin-left: 0;
+  }
+  50% {
+    width: 100%;
+    margin-left: 0;
+  }
+  100% {
+    width: 0%;
+    margin-left: 100%;
+  }
+}
+
+/* Stats Display */
+.stats-display {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 10;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: rgba(100, 110, 130, 0.5);
+  text-align: right;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.stats-display.visible {
+  opacity: 1;
+}
+
+.stats-display p {
+  margin-bottom: 0.25em;
+}
+
+/* Corner Brackets Decoration - subtle metallic */
+.corner-bracket {
+  position: fixed;
+  width: 25px;
+  height: 25px;
+  border: 1px solid rgba(100, 110, 130, 0.3);
+  z-index: 5;
+  opacity: 0.4;
+}
+
+.corner-bracket.top-left {
+  top: 20px;
+  left: 20px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.corner-bracket.top-right {
+  top: 20px;
+  right: 20px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.corner-bracket.bottom-left {
+  bottom: 20px;
+  left: 20px;
+  border-right: none;
+  border-top: none;
+}
+
+.corner-bracket.bottom-right {
+  bottom: 20px;
+  right: 20px;
+  border-left: none;
+  border-top: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-overlay {
+    padding: 8vw;
+    justify-content: flex-end;
+    padding-bottom: 20vh;
+  }
+  
+  .stats-display {
+    display: none;
+  }
+  
+  .corner-bracket {
+    display: none;
+  }
+}
