@@ -93,7 +93,7 @@ export function InfiniteGrid({ buildProgress, glowIntensity }: InfiniteGridProps
       fragmentShader: gridFragmentShader,
       uniforms: {
         uTime: { value: 0 },
-        uGridColor: { value: new THREE.Color('#1a2030') }, // Dark blue-gray base
+        uGridColor: { value: new THREE.Color('#2f3a57ff') }, // Dark blue-gray base
         uBuildProgress: { value: 0 },
         uGlowIntensity: { value: 0 },
         uPulseCenter: { value: new THREE.Vector2(25, 0) }, // Derrick center position

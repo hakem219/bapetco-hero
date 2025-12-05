@@ -76,9 +76,12 @@ export function HeroScene(props: HeroSceneProps) {
         camera={{
           fov: 50,
           near: 0.1,
-          far: 500,
+          far: 1000,
           position: [0, 40, 95],
         }}
+        onCreated={({ gl }) => {
+  gl.setClearColor(new THREE.Color('#020304'), 1);
+}}
         gl={{
           antialias: true,
           alpha: false,
